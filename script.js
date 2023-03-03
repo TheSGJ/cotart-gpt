@@ -86,7 +86,7 @@ const handleSubmit = async (e) => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
