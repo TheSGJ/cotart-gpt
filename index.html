@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cotart</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="app">
-      <div id="chat_container"></div>
 
-      <form>
-        <textarea name="prompt" rows="1" cols="1" placeholder="Ask Cotart GPT..."></textarea>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" as="style" type="text/css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block" as="style"
+    type="text/css">
+  <script nomodule="" src="webcomponents-bundle.js"></script>
+  <script nomodule="" src="index.es5.js"></script>
+  <style>mwc-textarea{width: max-content;}.demo-group-spaced{flex-wrap:wrap}.demo-group-spaced>*,[fullwidth]{margin-top:8px}</style>
+  <link href="../shared/shared.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block" rel="stylesheet">
+  <title>Cotart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div id="chat_container"></div>
+
+    <form>
+      <mwc-textarea outlined="" label="Ask Cotart GPT...">
+        <label class="mdc-text-field mdc-text-field--textarea mdc-text-field--outlined">
+          <mwc-notched-outline class="mdc-notched-outline">
+            <!--?lit$19259098265$-->
+            <span id="label" class="mdc-floating-label">Ask Cotart GPT...</span>
+
+          </mwc-notched-outline>
+          <textarea name="prompt" id="prompt" class="mdc-text-field__input" aria-labelledby="label" rows="2" cols="17"
+            placeholder=""></textarea>
+        </label>
+        
+        <img id="micOn" src="assets/microphone-off.svg" alt="mic off" />
+        <img id="micOff" style="display: none;" src="assets/microphone-on.svg" alt="mic ff" />
         <button type="submit"><img src="assets/send.svg" alt="send" />
-      </form>
-    </div>
+      </mwc-textarea>
+      <!-- <textarea rows="2" cols="3" placeholder="Ask Cotart GPT..."></textarea> -->
+    </form>
+  </div>
 
-    <script type="module" src="script.js"></script>
-  </body>
+  <script type="module" src="script.js"></script>
+</body>
+
 </html>

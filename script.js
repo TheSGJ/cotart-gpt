@@ -45,6 +45,7 @@ function generateUniqueId() {
 }
 
 function chatStripe(isAi, value, uniqueId) {
+    
     return (
         `
         <div class="wrapper ${isAi && 'ai'}">
@@ -62,6 +63,82 @@ function chatStripe(isAi, value, uniqueId) {
     )
 }
 
+function micControl(isRecording){
+
+    if(isRecording){
+        document.querySelector("#micOn").style.display = "none";
+        document.querySelector("#micOff").style.display = "inline";
+    }else{
+
+        document.querySelector("#micOn").style.display = "inline";
+        document.querySelector("#micOff").style.display = "none";
+    }
+
+
+}
+
+function speechText(){
+    if ("webkitSpeechRecognition" in window) {
+        // Initialize webkitSpeechRecognition
+        let speechRecognition = new webkitSpeechRecognition();
+
+        // String for the Final Transcript
+        let final_transcript = "";
+
+        // Set the properties for the Speech Recognition object
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+
+        // Callback Function for the onStart Event
+        speechRecognition.onstart = () => {
+          // Show the Status Element
+          micControl(true);
+        };
+        speechRecognition.onerror = () => {
+          // Hide the Status Element
+          micControl(false);
+        };
+        speechRecognition.onend = () => {
+          // Hide the Status Element
+          micControl(false);
+        };
+
+        speechRecognition.onresult = (event) => {
+          // Create the interim transcript string locally because we don't want it to persist like final transcript
+          let interim_transcript = "";
+
+          // Loop through the results from the speech recognition object.
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            } else {
+              interim_transcript += event.results[i][0].transcript;
+            }
+          }
+
+          // Set the Final transcript and Interim transcript.
+         var final = document.querySelector("#prompt").innerHTML = final_transcript+''+interim_transcript;
+         // var interim = document.querySelector("#interim").innerHTML = interim_transcript;
+         // console.log(final)
+         // console.log(interim)
+        };
+
+        // Set the onClick property of the start button
+        document.querySelector("#micOn").onclick = () => {
+          // Start the Speech Recognition
+          speechRecognition.start();
+        };
+        // Set the onClick property of the stop button
+        document.querySelector("#micOff").onclick = () => {
+          // Stop the Speech Recognition
+          speechRecognition.stop();
+        };
+      } else {
+        console.log("Speech Recognition Not Available");
+      }
+}
+
 const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -69,7 +146,8 @@ const handleSubmit = async (e) => {
 
     // user's chatstripe
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
-
+    document.querySelector("#prompt").value ='';
+    micControl(false);
     // to clear the textarea input 
     form.reset()
 
@@ -111,7 +189,7 @@ const handleSubmit = async (e) => {
         alert(err)
     }
 }
-
+speechText();
 form.addEventListener('submit', handleSubmit)
 form.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
